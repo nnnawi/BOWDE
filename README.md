@@ -11,4 +11,6 @@ BOWDE is an online toolbox for Control Theory in the style of Desmos.
 
 Like Desmos, BOWDE offers a simple and intuitive slider UI to quickly visualize the impact of variables on your system.
 
+Tutorials and explanations about the code can be found here: https://www.notion.so/BOWDE-Documentation-b3e1f56ec4a64214b891c339e3c44173
+
 
