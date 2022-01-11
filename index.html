@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BOWDE | Grapher</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans,wght@1,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/mathlive/dist/mathlive.min.js"></script>
+    <script type="text/javascript" src="libraries/p5.js"></script>
+    <script type="text/javascript" src="libraries/math.js"></script>
+    <script type="text/javascript" src="page_updater.js"></script>
+    <script type="text/javascript" src="new_graph_script.js"></script>
+    <script type="text/javascript" src="page_math.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="toolbox">
+        <div class="math-preferences">
+          <span style="font-weight:500;color:#777777">Math preferences:</span>
+          <div class="expression-wrapper">
+            <span>x-axis from:</span>
+            <div class="range-wrapper">
+              <input type="text" value="1">
+              <span style="margin: 0 6px 0 6px">to </span>
+              <input type="text" value="2">
+            </div>
+          </div>
+          <div class="expression-wrapper">
+            <span>y-axis from:</span>
+            <div class="range-wrapper">
+              <input type="text" value="1">
+              <span style="margin: 0 6px 0 6px">to </span>
+              <input type="text" value="2">
+            </div>
+          </div>
+          <div class="expression-wrapper">
+            <span>Automatic range:</span>
+            <input type="checkbox" name="" value="" style="width:15px;height:15px;" checked="checked">
+          </div>
+          <div class="expression-wrapper" style="margin-bottom:15px">
+            <span>Phase correction:</span>
+            <input type="checkbox" name="" value="" style="width:15px;height:15px;">
+          </div>
+        </div>
+        <div class="graphic-preferences">
+          <span style="font-weight:500;color:#777777">Graphic preferences:</span>
+          <div class="expression-wrapper">
+            <span>Lines stroke weight:</span>
+            <input type="range" id="stroke-range" name="" value="2" step="1" min="1" max="5" onchange="changeStrokeWeight()">
+          </div>
+          <div class="expression-wrapper">
+            <span>Dark/Bright mode</span>
+            <input type="checkbox" id="color-mode-checkbox" value="" style="width:15px;height:15px;" onclick="changeColorMode()">
+          </div>
+        </div>
+      </div>
+      <div class="header">
+        <h1 style="text-align:center;font-family: 'Archivo Black';color:#ffffff;font-size:44px;margin-top: 5px;letter-spacing:-3px">BOWDE</h1>
+      </div>
+      <div class="navbar">
+        <button type="button" class="nav-button" style="margin-top:9px" onclick="location.href='homepage.html'"><i class="material-icons" style="font-size: 38px;">home</i></button>
+        <hr style="width: 50px;border: 1px solid rgba(0, 0, 0, 0.44);">
+        <button type="button" class="nav-button"><i class="material-icons" style="font-size: 38px;">show_chart</i></button>
+      </div>
+      <div class="footer">
+        <div class="footer-info">
+          <h1>Our goal with BOWDE is to provide a free, powerful and online control theory toolbox for your projects</h1>
+       </div>
+        <div class="footer-link">
+          <a href="contact-us.html">Contact Us</a>
+          <a href="report-a-bug.html">Report a bug</a>
+        </div>
+        <h1 style="margin-top:10px">Made by Iwan Ibnoulouafi</h1>
+      </div>
+      <div class="math-bar">
+        <div class="option-bar">
+          <button type="button" class="add-graph" style="background:none;border:none;margin-left:5px;margin-top:5px"><i class="material-icons" style="font-size: 38px;color: #fff">add</i></button>
+          <button type="button" class="option-button" style="float:right;margin-right:10px;background:none;border:none;margin-top:9px"><i class="material-icons" style="font-size: 30px;color: #fff">tune</i></button>
+          <button type="button" class="option-button" style="float:right;margin-right:0px;background:none;border:none;margin-top:11px" onclick="capture_screen()"><i class="material-icons" style="font-size: 27px;color: #fff">photo_camera</i></button>
+        </div>
+        <div class="equations">
+          <div class="input-equation" style="margin-bottom:0px">
+            <div class="sub-input-equation" style="display:flex;flex-direction:row;height:50px">
+              <span class="input-span" style="margin-left:10px;margin-top:12px;margin-right:16px">input:</span>
+              <math-field class="formula" style="font-size: 20px" id="input-formula">\frac{1}{p}</math-field>
+              <select id="input-choices" style="height:30px;margin-top:9px;margin-left:8px" onchange="updateInputFormulaFromList()">
+                <option value="Unit step">Unit step</option>
+                <option value="Impulse">Impulse</option>
+                <option value="Ramp">Ramp</option>
+                <option value="Oscillation">Oscillation</option>
+              </select>
+            </div>
+            <hr>
+          </div>
+          <div class="equation-wrapper">
+            <div class="equation">
+              <input type="checkbox" class="show-graph" style="background:#e41d1d">
+              <math-field class="formula" id="1" style="font-size: 20px;">\frac{1}{1+p}</math-field>
+              <button type="button" class="delete-graph"><i class="material-icons" style="font-size: 38px; color: #b0b0b0">clear</i></button>
+            </div>
+            <div class="slider-buttons">
+
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="graph-space">
+        <div class="graph-tabs">
+          <input type="radio" id="bodetab" name="tab" checked="checked" onchange="redraw_canvas_gain('all')" onclick="showInputFunction(this.value),updateToolbox()" value="0">
+          <label for="bodetab">Bode</label>
+
+          <input type="radio" id="timetab" name="tab" onchange="redraw_canvas_gain('all')" onclick="showInputFunction(this.value),updateToolbox()" value="1">
+          <label for="timetab">Time response</label>
+
+          <input type="radio" id="nyqtab" name="tab" onchange="redraw_canvas_gain('all')" onclick="showInputFunction(this.value),updateToolbox()" value="2">
+          <label for="nyqtab">Nyquist</label>
+        </div>
+        <div id="sketch_holder"></div>
+      </div>
+      <div class="graph-information">
+        <div class="graph-information-tabs">
+          <input type="radio" id="graph_1_info" checked="checked" name="tab-inf" onchange="updateGraphInformation()">
+          <label for="graph_1_info" id="graph_1_infolabel">
+            <div style="width:20px;height:20px;border-radius:20px;background:#ff0000;padding-right:6px;margin-right:6px"></div>
+            <span>Graph 1</span>
+          </label>
+        </div>
+        <div class="functions-informations">
+          <div class="bode-information">
+            <div class="sub-information">
+              <span class="text">Phase margin:</span>
+              <span class="value">NaN</span>
+              <span class="text">| Gain crossover frequency: </span>
+              <span class="value">NaN</span>
+            </div>
+            <div class="sub-information">
+              <span class="text">Gain margin:</span>
+              <span class="value">NaN</span>
+              <span class="text">| Phase crossover frequency: </span>
+              <span class="value">NaN</span>
+            </div>
+          </div>
+          <div class="timerep-information">
+            <div class="sub-information">
+              <span class="text">Settling time(5%):</span>
+              <span class="value">NaN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
